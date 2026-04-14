@@ -1,0 +1,24 @@
+main branch m kuch nh .......
+dev branch m saara kaam hoga
+
+Karan -> separate separate branch (git checkout -b "karan-backend"")
+kaushik -> separate separate branch (git checkout -b "<branch-name>")
+kaushiki -> separate separate branch (git checkout -b "<branch-name>")
+Jagdish -> separate separate branch (git checkout -b "<branch-name>")
+Kaushal -> separate separate branch (git checkout -b "<branch-name>")
+
+Hrr Member Apni branch m PUSH KREGA COMMAND (
+    git add .
+    git commit -m "Message"
+    git push -u karan-backend (sbki apni apni branch name)
+)
+
+
+STEP : vs code m ek folder bnao sb
+        git clone https://github.com/karanguptacs23/MiniProject-grp6 ( run krna h )
+        separate separate branch (git checkout -b "<branch-name>")
+        git add .
+        git commit -m "Message"
+        git push -u karan-backend (sbki apni apni branch name)
+
+
