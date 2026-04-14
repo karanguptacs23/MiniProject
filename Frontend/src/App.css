@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Light theme (default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-card: #f0f0f0;
+  --bg-input: #e8e8e8;
+  --border: #d0d0d0;
+  --border-light: #e8e8e8;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --text-muted: #888888;
+  --accent: #a78bfa;
+  --accent-pink: #ec4899;
+  --accent-orange: #f97316;
+  --gradient: linear-gradient(135deg, #a78bfa, #ec4899, #f97316);
+  --gradient-soft: linear-gradient(135deg, #a78bfa, #ec4899);
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Syne', sans-serif;
+  --max-width: 600px;
+  --sidebar-width: 280px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #0f0f1a;
+  --bg-card: #1a1a2e;
+  --bg-input: #1e1e2e;
+  --border: #1e1e2e;
+  --border-light: #2a2a4e;
+  --text-primary: #e0e0f0;
+  --text-secondary: #a0a0b8;
+  --text-muted: #4a4a6a;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button { font-family: var(--font-body); cursor: pointer; }
+a { text-decoration: none; color: inherit; }
+input, textarea { font-family: var(--font-body); }
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.app-main {
+  flex: 1;
+  margin-left: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  margin-top: 64px;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border); }
+
+@media (max-width: 1200px) {
+  .app-main {
+    margin-left: 72px;
+  }
+
+  .navbar {
+    left: 72px;
+  }
+}
