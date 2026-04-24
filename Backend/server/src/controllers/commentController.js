@@ -70,7 +70,7 @@ export const createComment = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -128,7 +128,7 @@ export const getComments = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -173,7 +173,7 @@ export const updateComment = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -217,7 +217,7 @@ export const deleteComment = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -261,7 +261,7 @@ export const likeComment = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };

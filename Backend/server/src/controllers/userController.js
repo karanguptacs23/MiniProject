@@ -56,7 +56,7 @@ export const getUserProfile = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -129,7 +129,7 @@ export const searchUsers = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -191,7 +191,7 @@ export const followUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -229,7 +229,7 @@ export const unfollowUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -266,7 +266,7 @@ export const getFollowers = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -303,7 +303,7 @@ export const getFollowing = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -363,7 +363,7 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -387,7 +387,7 @@ export const getCurrentUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };

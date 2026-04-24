@@ -55,7 +55,7 @@ export const register = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -97,7 +97,7 @@ export const login = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -116,7 +116,7 @@ export const getMe = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -156,7 +156,7 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -194,7 +194,7 @@ export const changePassword = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
