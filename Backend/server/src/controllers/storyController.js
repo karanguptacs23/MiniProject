@@ -53,7 +53,7 @@ export const createStory = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -117,7 +117,7 @@ export const getStories = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -142,7 +142,7 @@ export const getUserStories = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -174,7 +174,7 @@ export const viewStory = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -219,7 +219,7 @@ export const deleteStory = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -266,7 +266,7 @@ export const likeStory = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };

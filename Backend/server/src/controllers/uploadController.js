@@ -40,7 +40,7 @@ export const uploadProfilePicture = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -79,7 +79,7 @@ export const uploadCoverPicture = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -113,7 +113,7 @@ export const deleteProfilePicture = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };
@@ -147,7 +147,7 @@ export const deleteCoverPicture = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message
+      /* error removed for security */
     });
   }
 };

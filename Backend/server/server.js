@@ -17,7 +17,7 @@ import commentRoutes from './src/routes/commentRoutes.js';
 import uploadRoutes from './src/routes/uploadRoutes.js';
 import storyRoutes from './src/routes/storyRoutes.js';
 
-dotenv.config();
+dotenv.config();\n
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -88,3 +88,4 @@ app.listen(PORT, () => {
 });
 
 export default app;
+
