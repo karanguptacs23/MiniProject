@@ -1,12 +1,17 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+
   const [isRegistering, setIsRegistering] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -14,6 +19,7 @@ export default function LoginPage() {
     fullName: ''
   });
 
+  // 🔹 Handle Input
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -21,77 +27,73 @@ export default function LoginPage() {
     });
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
-      // Store token
-      localStorage.setItem('token', data.data.token);
-      localStorage.setItem('user', JSON.stringify(data.data.user));
-
-      // Redirect to home
-      window.location.href = '/';
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+  // 🔹 Validation
+  const validateForm = () => {
+    if (!formData.email || !formData.password) {
+      return 'Please fill all required fields';
     }
+    if (!formData.email.includes('@')) {
+      return 'Enter a valid email';
+    }
+    if (formData.password.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    if (isRegistering && (!formData.username || !formData.fullName)) {
+      return 'All fields are required';
+    }
+    return null;
   };
 
-  const handleRegister = async (e) => {
+  // 🔹 COMMON API CALL
+  const handleAuth = async (endpoint, body) => {
+    const res = await fetch(`${API_URL}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      if (data.errors) {
+        throw new Error(data.errors.map(e => e.msg).join(', '));
+      }
+      throw new Error(data.message || 'Something went wrong');
+    }
+
+    return data;
+  };
+
+  // 🔹 SUBMIT
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const validationError = validateForm();
+    if (validationError) {
+      return setError(validationError);
+    }
+
     setLoading(true);
     setError('');
 
     try {
-      const response = await fetch(`${API_URL}/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          fullName: formData.fullName
-        })
-      });
+      const endpoint = isRegistering ? '/auth/register' : '/auth/login';
 
-      const data = await response.json();
+      const body = isRegistering
+        ? formData
+        : { email: formData.email, password: formData.password };
 
-      if (!response.ok) {
-        // Handle validation errors
-        if (data.errors && Array.isArray(data.errors)) {
-          const errorMsg = data.errors.map(e => e.msg).join(', ');
-          throw new Error(errorMsg);
-        }
-        throw new Error(data.message || 'Registration failed');
-      }
+      const data = await handleAuth(endpoint, body);
 
-      // Store token
+      // ✅ Store auth
       localStorage.setItem('token', data.data.token);
       localStorage.setItem('user', JSON.stringify(data.data.user));
 
-      // Redirect to home
+      // ✅ Force app refresh (IMPORTANT FIX)
       window.location.href = '/';
+
     } catch (err) {
-      setError(err.message);
-      console.error('Registration error:', err);
+      setError(err.message || 'Server error. Try again later.');
     } finally {
       setLoading(false);
     }
@@ -100,11 +102,14 @@ export default function LoginPage() {
   return (
     <div className="login-container">
       <div className="login-card">
+
         <h1>{isRegistering ? '✨ Create Account' : '📸 SnapVibe'}</h1>
 
         {error && <div className="error-message">{error}</div>}
 
-        <form onSubmit={isRegistering ? handleRegister : handleLogin}>
+        <form onSubmit={handleSubmit}>
+
+          {/* REGISTER FIELDS */}
           {isRegistering && (
             <>
               <input
@@ -113,7 +118,6 @@ export default function LoginPage() {
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
-                required
               />
               <input
                 type="text"
@@ -121,36 +125,49 @@ export default function LoginPage() {
                 placeholder="Full Name"
                 value={formData.fullName}
                 onChange={handleChange}
-                required
               />
             </>
           )}
 
+          {/* EMAIL */}
           <input
             type="email"
             name="email"
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            required
           />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          {/* PASSWORD */}
+          <div className="password-box">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <span
+              className="toggle-eye"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? '🙈' : '👁️'}
+            </span>
+          </div>
 
+          {/* BUTTON */}
           <button type="submit" disabled={loading}>
-            {loading ? 'Loading...' : isRegistering ? 'Sign Up' : 'Log In'}
+            {loading ? 'Please wait...' : isRegistering ? 'Sign Up' : 'Log In'}
           </button>
+
         </form>
 
+        {/* SWITCH */}
         <p>
-          {isRegistering ? 'Already have an account?' : "Don't have an account?"}
+          {isRegistering
+            ? 'Already have an account?'
+            : "Don't have an account?"}
+
           <button
             type="button"
             className="toggle-btn"
@@ -162,6 +179,7 @@ export default function LoginPage() {
             {isRegistering ? 'Log In' : 'Sign Up'}
           </button>
         </p>
+
       </div>
     </div>
   );
