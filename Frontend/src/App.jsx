@@ -1,61 +1,92 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+
 import { ThemeProvider } from "./ThemeContext";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+
 import Feed from "./components/Feed";
 import ExplorePage from "./pages/ExplorePage";
 import ProfilePage from "./pages/ProfilePage";
 import ReelsPage from "./pages/ReelsPage";
 import AddPostPage from "./pages/AddPostPage";
 import LoginPage from "./pages/LoginPage";
+
 import "./App.css";
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("home");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is authenticated on mount
+  // 🔐 Check auth on load
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
     setLoading(false);
   }, []);
 
-  // Logout function
+  // 🔓 Logout
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setIsAuthenticated(false);
   };
 
-  // Show login page if not authenticated
+  // ⏳ Loading screen
   if (loading) {
-    return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>Loading...</div>;
+    return (
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        fontSize: "20px"
+      }}>
+        Loading...
+      </div>
+    );
   }
-
-  if (!isAuthenticated) {
-    return <LoginPage />;
-  }
-
-  const renderPage = () => {
-    switch (activeTab) {
-      case "search":  return <ExplorePage />;
-      case "profile": return <ProfilePage />;
-      case "reels":   return <ReelsPage />;
-      case "add":     return <AddPostPage />;
-      default:        return <Feed />;
-    }
-  };
 
   return (
     <ThemeProvider>
-      <div className="app-layout">
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout} />
-        <div className="app-main">
-          <Navbar />
-          <main className="main-content">{renderPage()}</main>
-        </div>
-      </div>
+      <Routes>
+
+        {/* 🔓 Public Route */}
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? <Navigate to="/" /> : <LoginPage />
+          }
+        />
+
+        {/* 🔐 Protected Routes */}
+        <Route
+          path="/*"
+          element={
+            isAuthenticated ? (
+              <div className="app-layout">
+                <Sidebar onLogout={handleLogout} />
+
+                <div className="app-main">
+                  <Navbar />
+
+                  <main className="main-content">
+                    <Routes>
+                      <Route path="/" element={<Feed />} />
+                      <Route path="/explore" element={<ExplorePage />} />
+                      <Route path="/profile" element={<ProfilePage />} />
+                      <Route path="/reels" element={<ReelsPage />} />
+                      <Route path="/add" element={<AddPostPage />} />
+                    </Routes>
+                  </main>
+                </div>
+              </div>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+      </Routes>
     </ThemeProvider>
   );
 }
